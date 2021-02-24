@@ -1,5 +1,5 @@
 [package]
-name = "ferr_os-librust"
+name = "ferr_os_librust"
 version = "0.1.0"
 authors = [
     "Constantin GIERCZAK--GALLE <constantin.gierczak-galle@ens.fr>",
@@ -10,6 +10,7 @@ authors = [
 edition = "2018"
 
 [dependencies]
+bootloader = { version = "0.9.8", features = ["map_physical_memory"]}
 spin = "0.5.2"
 x86_64 = "0.13.2"
 pic8259_simple = "*"
