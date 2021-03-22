@@ -3,7 +3,6 @@ use alloc::string::String;
 // callee-saved : rax, rdi, rsi, rdx, rcx, r8, r9, r10, r11
 // syscall : rax, rdi, rsi, rdx, r10, r8, r9
 // param : rdi, rsi, rdx, rcx, r8, r9
-#[naked]
 pub unsafe extern "C" fn syscall(
     number: u64,
     arg0: u64,
@@ -12,6 +11,7 @@ pub unsafe extern "C" fn syscall(
     arg3: u64,
     arg4: u64,
 ) -> u64 {
+    let mut x;
     asm!(
         "mov rax, rdi",
         "mov rdi, rsi",
@@ -20,9 +20,11 @@ pub unsafe extern "C" fn syscall(
         "mov r10, r8",
         "mov r8, r9",
         "int 0x80",
-        "ret"
+        // Result MUST be put into rax before returning from the context_switch
+        "mov {0}, rax",
+        out(reg) x
     );
-    3
+    x
 }
 
 pub unsafe fn read(file_descriptor: usize, buffer: *mut usize, count: usize) -> usize {
@@ -33,18 +35,19 @@ pub unsafe fn write(file_descriptor: usize, buffer: *mut usize, count: usize) ->
     todo!()
 }
 
+/// Maybe we can pass a whole String for the path
+pub unsafe fn open(path: *mut usize, length: usize, flags: u64) -> usize {
+    syscall(2, path as u64, length as u64, flags, 0, 0) as usize
+}
+
+pub unsafe fn close(file_descriptor: usize) -> usize {
+    syscall(3, file_descriptor as u64, 0, 0, 0, 0) as usize
+}
+
 #[repr(C)]
 pub enum OpenFlags {
     OCREAT,
     ODIRECTORY,
     OEXCEL,
     OPATH,
-}
-
-pub unsafe fn open(path: String, flag: OpenFlags, count: usize) -> usize {
-    todo!()
-}
-
-pub unsafe fn close(file_descriptor: usize) -> usize {
-    todo!()
 }

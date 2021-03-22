@@ -22,3 +22,9 @@ extern crate alloc;
 
 /// To directly use `core` and `alloc` in user-space programs
 pub use core;
+use core::panic::PanicInfo;
+
+#[panic_handler]
+pub fn panic(_ : &PanicInfo) -> ! {
+    loop {}
+}
