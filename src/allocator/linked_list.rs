@@ -149,9 +149,9 @@ unsafe impl GlobalAlloc for Locked<LinkedListAllocator> {
             if excess_size > 0 {
                 allocator.add_free_region(alloc_end, excess_size);
             }
-            alloc_start as *mut u8
+            (alloc_start + 1) as *mut u8
         } else {
-            1 as *mut u8
+            ptr::null_mut()
         }
     }
 
