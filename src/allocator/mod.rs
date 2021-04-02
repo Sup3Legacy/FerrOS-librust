@@ -9,9 +9,9 @@ use x86_64::{
 pub mod linked_list;
 use core;
 
-/// The start adress of the kernel heap.
+/// The start adress of the heap.
 pub const HEAP_START: usize = 0x4444_4444_0000;
-/// The size of the kernel heap. It is for now pretty small.
+/// The size of the heap. It is for now pretty small.
 pub const HEAP_SIZE: usize = 100 * 1024;
 
 #[alloc_error_handler]
@@ -42,7 +42,8 @@ pub fn init(
         let frame = frame_allocator
             .allocate_frame()
             .ok_or(MapToError::FrameAllocationFailed)?;
-        let flags = PageTableFlags::PRESENT | PageTableFlags::WRITABLE;
+        let flags =
+            PageTableFlags::PRESENT | PageTableFlags::WRITABLE | PageTableFlags::USER_ACCESSIBLE;
         unsafe {
             mapper.map_to(page, frame, flags, frame_allocator)?.flush();
         };
