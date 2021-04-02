@@ -151,7 +151,7 @@ unsafe impl GlobalAlloc for Locked<LinkedListAllocator> {
             }
             alloc_start as *mut u8
         } else {
-            ptr::null_mut()
+            1 as *mut u8
         }
     }
 
