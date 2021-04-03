@@ -33,3 +33,19 @@ pub fn panic(_: &PanicInfo) -> ! {
     }
     loop {}
 }
+
+#[inline(never)]
+pub extern "C" fn syscall(nb: u64, arg0: u64, arg1: u64, arg2: u64) -> usize {
+    let res;
+    unsafe {
+        asm!(
+            "mov rax, {}", 
+            "mov rdi, {}",
+            "mov rsi, {}",
+            "mov rdx, {}",
+            "int 80h",
+            "mov {}, rax", 
+            in(reg) nb, in(reg) arg0, in(reg) arg1, in(reg) arg2, out(reg) res)
+    };
+    res
+}

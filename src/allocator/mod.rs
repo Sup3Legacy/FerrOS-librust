@@ -30,9 +30,9 @@ static ALLOCATOR: Locked<LinkedListAllocator> = Locked::new(LinkedListAllocator:
 /// TODO : continue working on this
 pub fn init() {
     unsafe {
-        syscall::syscall(20, 69, 0, 0, 0, 0);
+        crate::syscall(20, 69, 0, 0);
         let mut a = ALLOCATOR.lock();
-        syscall::syscall(20, 70, 0, 0, 0, 0);
+        crate::syscall(20, 70, 0, 0);
         a.init(HEAP_START, HEAP_SIZE);
     }
 }
