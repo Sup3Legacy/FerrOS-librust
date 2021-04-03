@@ -28,7 +28,7 @@ static ALLOCATOR: Locked<LinkedListAllocator> = Locked::new(LinkedListAllocator:
 
 pub fn init_allocator() {
     // Memory allocation Initialization
-    let phys_mem_offset = VirtAddr::new(0_u64);
+    let phys_mem_offset = VirtAddr::new(12_u64);
     let mut mapper = unsafe { memory::init(phys_mem_offset) };
     unsafe {
         if let Some(frame_allocator) = &mut memory::FRAME_ALLOCATOR {
