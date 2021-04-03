@@ -16,7 +16,6 @@ pub mod env;
 pub mod io;
 pub mod screen;
 pub mod syscall;
-pub mod memory;
 
 /// To be able to use all `alloc` structures
 extern crate alloc;
