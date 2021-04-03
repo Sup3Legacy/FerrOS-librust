@@ -28,6 +28,7 @@ use core::panic::PanicInfo;
 pub fn panic(_: &PanicInfo) -> ! {
     unsafe {
         syscall::syscall(20, 420, 0, 0, 0, 0);
+        asm!("push 0", "ret");
     }
     loop {}
 }
