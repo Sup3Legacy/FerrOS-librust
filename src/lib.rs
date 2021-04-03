@@ -16,6 +16,7 @@ pub mod env;
 pub mod io;
 pub mod screen;
 pub mod syscall;
+pub mod memory;
 
 /// To be able to use all `alloc` structures
 extern crate alloc;
@@ -23,6 +24,7 @@ extern crate alloc;
 /// To directly use `core` and `alloc` in user-space programs
 pub use core;
 use core::panic::PanicInfo;
+
 
 #[panic_handler]
 pub fn panic(_: &PanicInfo) -> ! {

@@ -3,11 +3,13 @@ use x86_64::{
     structures::paging::{
         mapper::MapToError, FrameAllocator, Mapper, Page, PageTableFlags, Size4KiB,
     },
+    registers::control::Cr3
 };
 //use core::ptr::null_mut;
 //Will be removed in favor of a custom allocator in the future
 pub mod linked_list;
 use core;
+use crate::memory;
 use crate::syscall;
 /// The start adress of the heap.
 pub const HEAP_START: usize = 0x4444_0000;
@@ -23,6 +25,23 @@ use linked_list::LinkedListAllocator;
 
 #[global_allocator]
 static ALLOCATOR: Locked<LinkedListAllocator> = Locked::new(LinkedListAllocator::new());
+
+pub fn init_allocator() {
+    // Memory allocation Initialization
+    let phys_mem_offset = VirtAddr::new(0_u64);
+    let mut mapper = unsafe { memory::init(phys_mem_offset) };
+    unsafe {
+        if let Some(frame_allocator) = &mut memory::FRAME_ALLOCATOR {
+            let (level_4_frame, _) = Cr3::read();
+            frame_allocator
+                .deallocate_level_4_page(level_4_frame.start_address(), PageTableFlags::BIT_9)
+                .expect("Didn't manage to clean bootloader data");
+            init(&mut mapper, frame_allocator).expect("Heap init failed :((");
+        } else {
+            panic!("Frame allocator wasn't initialized");
+        }
+    };
+}
 
 /// Inits the Allocator, responsible for the...
 ///
