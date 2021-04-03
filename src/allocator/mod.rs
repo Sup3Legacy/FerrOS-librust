@@ -28,12 +28,12 @@ static ALLOCATOR: Locked<LinkedListAllocator> = Locked::new(LinkedListAllocator:
 /// Inits the Allocator, responsible for the...
 ///
 /// TODO : continue working on this
-pub fn init() -> Result<(), MapToError<Size4KiB>> {
+pub fn init() {
     unsafe {
-        ALLOCATOR.lock().init(HEAP_START, HEAP_SIZE);
+        let mut a = ALLOCATOR.lock();
+        syscall::syscall(20, 69, 0, 0, 0, 0);
+        a.init(HEAP_START, HEAP_SIZE);
     }
-
-    Ok(())
 }
 
 pub struct Locked<A> {

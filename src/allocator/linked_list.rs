@@ -57,33 +57,6 @@ impl LinkedListAllocator {
         assert!(size >= mem::size_of::<ListNode>());
         let mut node = ListNode::new(size);
         node.next = self.head.next.take();
-
-        // Deuxième tentative
-        /*
-        let mut current = &mut self.head;
-        while current.start_addr() < addr {
-            if let Some(ref mut next_region) = current.next {
-                node.next = Some(next_region);
-                current.next = Some(&mut node);
-                current = next_region;
-            } else {
-
-            }
-        }
-        */
-
-        // Première tentative
-        /*
-        while let Some(ref mut next_region) = current.next {
-            if (current).start_addr() <= addr {
-                //current.next = Some();
-                break;
-            }
-            node.next = next_region.next.take();
-            //node.previous =
-            current = next_region;
-        }
-        */
         let node_ptr = addr as *mut ListNode;
         node_ptr.write(node);
         self.head.next = Some(&mut *node_ptr)
