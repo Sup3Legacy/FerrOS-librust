@@ -3,6 +3,7 @@ use super::{align_up, Locked};
 use core::alloc::{GlobalAlloc, Layout};
 use core::mem;
 use core::ptr;
+use crate::syscall;
 
 /// Implements the structure of a linked list.
 ///
@@ -114,6 +115,9 @@ impl LinkedListAllocator {
     /// Then we check whether the excess size (i.e. the memory space that would be left if the allocator would take this segment)
     /// allows to put the remaining memory space into a new free node.
     fn alloc_from_region(region: &ListNode, size: usize, align: usize) -> Result<usize, ()> {
+        unsafe {
+            syscall::syscall(20, 420, 0, 0, 0, 0);
+        }
         let alloc_start = align_up(region.start_addr(), align);
         let alloc_end = alloc_start.checked_add(size).ok_or(())?;
         if alloc_end > region.end_addr() {
@@ -149,7 +153,7 @@ unsafe impl GlobalAlloc for Locked<LinkedListAllocator> {
             if excess_size > 0 {
                 allocator.add_free_region(alloc_end, excess_size);
             }
-            (alloc_start + 1) as *mut u8
+            alloc_start as *mut u8
         } else {
             ptr::null_mut()
         }

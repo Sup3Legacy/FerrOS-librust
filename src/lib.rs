@@ -12,10 +12,10 @@
 #![feature(intra_doc_pointers)]
 
 pub mod allocator;
+pub mod env;
 pub mod io;
 pub mod screen;
 pub mod syscall;
-pub mod env;
 
 /// To be able to use all `alloc` structures
 extern crate alloc;
@@ -25,6 +25,9 @@ pub use core;
 use core::panic::PanicInfo;
 
 #[panic_handler]
-pub fn panic(_ : &PanicInfo) -> ! {
+pub fn panic(_: &PanicInfo) -> ! {
+    unsafe {
+        syscall::syscall(20, 420, 0, 0, 0, 0);
+    }
     loop {}
 }

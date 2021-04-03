@@ -11,7 +11,7 @@ pub unsafe extern "C" fn syscall(
     arg3: u64,
     arg4: u64,
 ) -> u64 {
-    let mut x;
+    let x;
     asm!(
         "mov rax, rdi",
         "mov rdi, rsi",

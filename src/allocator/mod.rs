@@ -8,9 +8,9 @@ use x86_64::{
 //Will be removed in favor of a custom allocator in the future
 pub mod linked_list;
 use core;
-
+use crate::syscall;
 /// The start adress of the heap.
-pub const HEAP_START: usize = 0x4444_4444_0000;
+pub const HEAP_START: usize = 0x4444_0000;
 /// The size of the heap. It is for now pretty small.
 pub const HEAP_SIZE: usize = 100 * 1024;
 
