@@ -8,7 +8,7 @@ use x86_64::{
 //use core::ptr::null_mut;
 //Will be removed in favor of a custom allocator in the future
 pub mod linked_list;
-use crate::syscall;
+use crate::syscall::syscall;
 use core;
 #[alloc_error_handler]
 fn alloc_error_handler(layout: core::alloc::Layout) -> ! {
@@ -28,9 +28,9 @@ static mut HEAP_END: usize = 0;
 /// TODO : continue working on this
 pub fn init(heap_start : u64, heap_size : u64) {
     unsafe {
-        crate::syscall(20, 69, 0, 0);
+        syscall(20, 69, 0, 0, 0, 0);
         let mut a = ALLOCATOR.lock();
-        crate::syscall(20, 70, 0, 0);
+        syscall(20, 70, 0, 0, 0, 0);
         a.init(heap_start as usize, 0x1000 * heap_size as usize);
     }
 }

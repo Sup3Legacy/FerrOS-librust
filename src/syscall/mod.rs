@@ -3,7 +3,7 @@ use alloc::string::String;
 // callee-saved : rax, rdi, rsi, rdx, rcx, r8, r9, r10, r11
 // syscall : rax, rdi, rsi, rdx, r10, r8, r9
 // param : rdi, rsi, rdx, rcx, r8, r9
-pub unsafe extern "C" fn syscall(
+pub unsafe extern "C" fn syscall_old(
     number: u64,
     arg0: u64,
     arg1: u64,
@@ -25,6 +25,24 @@ pub unsafe extern "C" fn syscall(
         out(reg) x
     );
     x
+}
+
+#[inline(never)]
+pub extern "C" fn syscall(nb: u64, arg0: u64, arg1: u64, arg2: u64, arg3 : u64, arg4 : u64) -> usize {
+    let res;
+    unsafe {
+        asm!(
+            "mov rax, {}", 
+            "mov rdi, {}",
+            "mov rsi, {}",
+            "mov rdx, {}",
+            "mov r10, {}",
+            "mov r8, {}",
+            "int 80h",
+            "mov {}, rax", 
+            in(reg) nb, in(reg) arg0, in(reg) arg1, in(reg) arg2, in(reg) arg3, in(reg) arg4, out(reg) res)
+    };
+    res
 }
 
 pub unsafe fn read(file_descriptor: usize, buffer: *mut usize, count: usize) -> usize {
