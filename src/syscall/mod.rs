@@ -44,6 +44,10 @@ pub unsafe fn close(file_descriptor: usize) -> usize {
     syscall(3, file_descriptor as u64, 0, 0, 0, 0) as usize
 }
 
+pub unsafe fn memrequest(number : usize) -> usize {
+    syscall(21, number as u64, 0, 0, 0, 0) as usize
+}
+
 #[repr(C)]
 pub enum OpenFlags {
     OCREAT,

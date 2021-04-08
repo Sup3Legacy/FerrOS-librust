@@ -1,20 +1,15 @@
 use x86_64::{
     addr::VirtAddr,
+    registers::control::Cr3,
     structures::paging::{
         mapper::MapToError, FrameAllocator, Mapper, Page, PageTableFlags, Size4KiB,
     },
-    registers::control::Cr3
 };
 //use core::ptr::null_mut;
 //Will be removed in favor of a custom allocator in the future
 pub mod linked_list;
-use core;
 use crate::syscall;
-/// The start adress of the heap.
-pub const HEAP_START: usize = 0x4444_4444_0000;
-/// The size of the heap. It is for now pretty small.
-pub const HEAP_SIZE: usize = 100 * 1024;
-
+use core;
 #[alloc_error_handler]
 fn alloc_error_handler(layout: core::alloc::Layout) -> ! {
     panic!("Allocation error : {:?}", layout)
@@ -25,15 +20,18 @@ use linked_list::LinkedListAllocator;
 #[global_allocator]
 static ALLOCATOR: Locked<LinkedListAllocator> = Locked::new(LinkedListAllocator::new());
 
+/// We need to know this to be able to locate newly allocated pages
+static mut HEAP_END: usize = 0;
+
 /// Inits the Allocator, responsible for the...
 ///
 /// TODO : continue working on this
-pub fn init() {
+pub fn init(heap_start : u64, heap_size : u64) {
     unsafe {
         crate::syscall(20, 69, 0, 0);
         let mut a = ALLOCATOR.lock();
         crate::syscall(20, 70, 0, 0);
-        a.init(HEAP_START, HEAP_SIZE);
+        a.init(heap_start as usize, 0x1000 * heap_size as usize);
     }
 }
 
