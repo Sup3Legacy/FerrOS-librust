@@ -13,6 +13,7 @@
 
 pub mod allocator;
 pub mod env;
+pub mod interfaces;
 pub mod io;
 pub mod screen;
 pub mod syscall;
@@ -29,7 +30,7 @@ use core::panic::PanicInfo;
 pub fn panic(_: &PanicInfo) -> ! {
     unsafe {
         syscall::syscall(20, 420, 0, 0, 0, 0);
-        asm!("push 1", "ret");
+        asm!("push 0", "ret");
     }
     loop {}
 }
