@@ -17,6 +17,7 @@ pub mod interfaces;
 pub mod io;
 pub mod screen;
 pub mod syscall;
+pub mod testing;
 
 /// To be able to use all `alloc` structures
 extern crate alloc;
