@@ -28,7 +28,7 @@ pub unsafe extern "C" fn syscall_old(
 }
 
 #[inline(never)]
-pub extern "C" fn syscall(nb: u64, arg0: u64, arg1: u64, arg2: u64, arg3 : u64, arg4 : u64) -> usize {
+pub extern "C" fn syscall(nb: u64, arg0: u64, arg1: u64, arg2: u64, arg3: u64, arg4: u64) -> usize {
     let res;
     unsafe {
         asm!(
@@ -62,7 +62,7 @@ pub unsafe fn close(file_descriptor: usize) -> usize {
     syscall(3, file_descriptor as u64, 0, 0, 0, 0) as usize
 }
 
-pub unsafe fn memrequest(number : usize) -> usize {
+pub unsafe fn memrequest(number: usize) -> usize {
     syscall(21, number as u64, 0, 0, 0, 0) as usize
 }
 

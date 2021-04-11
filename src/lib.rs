@@ -25,7 +25,6 @@ extern crate alloc;
 pub use core;
 use core::panic::PanicInfo;
 
-
 #[panic_handler]
 pub fn panic(_: &PanicInfo) -> ! {
     unsafe {
@@ -34,4 +33,3 @@ pub fn panic(_: &PanicInfo) -> ! {
     }
     loop {}
 }
-

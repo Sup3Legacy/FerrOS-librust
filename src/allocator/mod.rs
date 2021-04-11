@@ -26,7 +26,7 @@ static mut HEAP_END: usize = 0;
 /// Inits the Allocator, responsible for the...
 ///
 /// TODO : continue working on this
-pub fn init(heap_start : u64, heap_size : u64) {
+pub fn init(heap_start: u64, heap_size: u64) {
     unsafe {
         syscall(20, 69, 0, 0, 0, 0);
         let mut a = ALLOCATOR.lock();
