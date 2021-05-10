@@ -51,7 +51,7 @@ pub unsafe fn read(file_descriptor: usize, buffer: *mut usize, count: usize) -> 
     response
 }
 
-pub unsafe fn write(file_descriptor: usize, buffer: *mut usize, count: usize) -> usize {
+pub unsafe fn write(file_descriptor: usize, buffer: *usize, count: usize) -> usize {
     let response;
     asm!(
         "int 80h",
