@@ -61,8 +61,8 @@ pub unsafe fn write(file_descriptor: usize, buffer: *mut usize, count: usize) ->
 }
 
 /// Maybe we can pass a whole String for the path
-pub unsafe fn open(path: *mut usize, length: usize, flags: u64) -> usize {
-    syscall(2, VirtAddr::from_ptr(path).as_u64() as usize, length, flags as usize, 0, 0)
+pub unsafe fn open(path: String, flags: u64) -> usize {
+    syscall(2, VirtAddr::from_ptr(path.as_ptr()).as_u64() as usize, path.len(), flags as usize, 0, 0)
 }
 
 pub unsafe fn close(file_descriptor: usize) -> usize {
@@ -78,7 +78,7 @@ pub unsafe fn fork() -> usize {
 }
 
 pub unsafe fn exec(name: String) -> usize {
-    syscall(6, VirtAddr::from_ptr(name.as_ptr()).as_u64() as usize, 0, 0, 0, 0)
+    syscall(6, VirtAddr::from_ptr(name.as_ptr()).as_u64() as usize, name.len(), 0, 0, 0)
 }
 
 pub unsafe fn exit(code: usize) -> usize {
