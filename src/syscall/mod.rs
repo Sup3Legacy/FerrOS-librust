@@ -42,7 +42,7 @@ pub extern "C" fn syscall(nb: usize, arg0: usize, arg1: usize, arg2: usize, arg3
     res
 }
 
-pub unsafe fn read(file_descriptor: usize, buffer: *mut usize, count: usize) -> usize {
+pub unsafe fn read(file_descriptor: usize, buffer: *mut u8, count: usize) -> usize {
     let response;
     asm!(
         "int 80h",
