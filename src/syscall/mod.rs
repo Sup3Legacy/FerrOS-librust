@@ -85,7 +85,7 @@ pub unsafe fn exec(name: String) -> usize {
 }
 
 pub unsafe fn exit(code: usize) -> usize {
-    syscall(7, code, 0, 0, 0, 0) as usize
+    syscall(7, code as u64, 0, 0, 0, 0) as usize
 }
 
 pub unsafe fn sleep() {
@@ -93,7 +93,7 @@ pub unsafe fn sleep() {
 }
 
 pub unsafe fn shutdown(code: usize) -> usize {
-    syscall(9, code, 0, 0, 0, 0) as usize
+    syscall(9, code as u64, 0, 0, 0, 0) as usize
 }
 
 pub unsafe fn get_puid() -> usize {
@@ -101,11 +101,11 @@ pub unsafe fn get_puid() -> usize {
 }
 
 pub unsafe fn set_screen_size(height: usize, width: usize) -> usize {
-    syscall(11, height, width, 0, 0, 0) as usize
+    syscall(11, height as u64, width as u64, 0, 0, 0) as usize
 }
 
 pub unsafe fn set_screen_pos(top: usize, left: usize) -> usize {
-    syscall(12, top, left, 0, 0, 0) as usize
+    syscall(12, top as u64, left as u64, 0, 0, 0) as usize
 }
 
 pub unsafe fn getcwd() -> usize {
@@ -137,7 +137,7 @@ pub unsafe fn set_focus() -> usize {
 }
 
 pub unsafe fn debug(v1: usize, v2: usize) {
-    syscall(20, v1, v2, 0, 0, 0);
+    syscall(20, v1 as u64, v2 as u64, 0, 0, 0);
 }
 
 pub unsafe fn memrequest(number: usize) -> usize {
@@ -152,7 +152,7 @@ pub unsafe fn listen() -> (usize, usize) {
         in(rax) 22,
         lateout(rax) res1,
         lateout(rdi) res2,
-    )
+    );
     (res1, res2)
 }
 
