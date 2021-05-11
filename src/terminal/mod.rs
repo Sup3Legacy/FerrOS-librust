@@ -1,4 +1,5 @@
 extern crate num;
+
 #[repr(u8)]
 #[derive(Copy, Clone, FromPrimitive)]
 pub enum Color {
