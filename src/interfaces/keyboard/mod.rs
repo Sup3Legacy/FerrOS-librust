@@ -20,7 +20,14 @@ pub fn decode_buffer(scancodes: &[u8], characters: &mut [u8], length: usize) -> 
                 characters[index] = a as u8;
                 index += 1;
             }
-            layout::Effect::Value(layout::KeyEvent::SpecialKey(s)) => (),
+            layout::Effect::Value(layout::KeyEvent::SpecialKey(_v)) => (),
+            layout::Effect::Value(layout::KeyEvent::CharaterVec(v)) => {
+                for elt in v.iter() {
+                    characters[index] = *elt;
+                    index += 1;
+                }
+            }
+            _ => (),
         };
     }
     index

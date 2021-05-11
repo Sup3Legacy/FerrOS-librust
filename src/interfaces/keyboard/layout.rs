@@ -4,6 +4,11 @@
 
 //use crate::{print, println};
 
+use alloc::vec;
+use alloc::vec::Vec;
+
+use crate::terminal;
+
 #[allow(dead_code)]
 pub struct KeyBoardStatus {
     maj: bool,
@@ -26,6 +31,7 @@ pub enum Effect {
 pub enum KeyEvent {
     Character(char),
     SpecialKey(u8),
+    CharaterVec(Vec<u8>),
 }
 
 #[allow(dead_code)]
@@ -451,6 +457,63 @@ impl KeyBoardStatus {
                     self.alt_down();
                     Effect::Nothing
                 }
+
+                Key::ArrowL => {
+                    if self.maj() {
+                        terminal::set_fg((terminal::get_fg() - 1) % 16);
+                        Effect::Value(KeyEvent::CharaterVec(vec![
+                            b'\x1b',
+                            b'[',
+                            terminal::get_fg(),
+                            b'm',
+                        ]))
+                    } else {
+                        Effect::Value(KeyEvent::CharaterVec(vec![b'\x1b', b'[', 1_u8, b'D']))
+                    }
+                }
+
+                Key::ArrowR => {
+                    if self.maj() {
+                        terminal::set_fg((terminal::get_fg() + 1) % 16);
+                        Effect::Value(KeyEvent::CharaterVec(vec![
+                            b'\x1b',
+                            b'[',
+                            terminal::get_fg(),
+                            b'm',
+                        ]))
+                    } else {
+                        Effect::Value(KeyEvent::CharaterVec(vec![b'\x1b', b'[', 1_u8, b'C']))
+                    }
+                }
+
+                Key::ArrowD => {
+                    if self.maj() {
+                        terminal::set_bg((terminal::get_bg() - 1) % 16);
+                        Effect::Value(KeyEvent::CharaterVec(vec![
+                            b'\x1b',
+                            b'[',
+                            terminal::get_bg(),
+                            b'm',
+                        ]))
+                    } else {
+                        Effect::Value(KeyEvent::CharaterVec(vec![b'\x1b', b'[', 1_u8, b'B']))
+                    }
+                }
+
+                Key::ArrowU => {
+                    if self.maj() {
+                        terminal::set_bg((terminal::get_bg() + 1) % 16);
+                        Effect::Value(KeyEvent::CharaterVec(vec![
+                            b'\x1b',
+                            b'[',
+                            terminal::get_bg(),
+                            b'm',
+                        ]))
+                    } else {
+                        Effect::Value(KeyEvent::CharaterVec(vec![b'\x1b', b'[', 1_u8, b'A']))
+                    }
+                }
+
                 _ => {
                     //println!("{:?}", key);
                     //println!("{:?}", convert(key));

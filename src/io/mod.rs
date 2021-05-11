@@ -3,7 +3,6 @@ use super::syscall;
 use alloc::string::String;
 use core::mem;
 
-
 pub fn push_sound(fd: u64, tone: u64, length: u64, begin: u64) {
     let sound_buffer: [u8; 24] = unsafe { mem::transmute([tone, length, begin]) };
     unsafe {
@@ -52,4 +51,3 @@ pub fn print(a: &String) {
         syscall::write(1, &t as *const u8, index);
     }
 }
-
