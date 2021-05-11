@@ -4,14 +4,14 @@ use alloc::string::String;
 use core::mem;
 
 
-fn push_sound(fd: u64, tone: u64, length: u64, begin: u64) {
+pub fn push_sound(fd: u64, tone: u64, length: u64, begin: u64) {
     let sound_buffer: [u8; 24] = unsafe { mem::transmute([tone, length, begin]) };
     unsafe {
         syscall::write(fd as usize, sound_buffer.as_ptr(), 24);
     }
 }
 
-fn read_to_string(fd: usize, length: usize) -> String {
+pub fn read_to_string(fd: usize, length: usize) -> String {
     let mut buffer = [0_u8; 512];
     let got = unsafe { syscall::read(fd, &mut buffer as *mut u8, length) };
     let mut res = String::new();
@@ -24,7 +24,7 @@ fn read_to_string(fd: usize, length: usize) -> String {
     res
 }
 
-fn print_buffer(buffer: &[u8], size: usize) {
+pub fn print_buffer(buffer: &[u8], size: usize) {
     let mut t: [u8; 256] = [0; 256];
 
     for c in 0..size {
@@ -36,7 +36,7 @@ fn print_buffer(buffer: &[u8], size: usize) {
     }
 }
 
-fn print(a: &String) {
+pub fn print(a: &String) {
     let mut t: [u8; 128] = [0; 128];
     let mut index = 0_usize;
 
