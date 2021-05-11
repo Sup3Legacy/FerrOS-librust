@@ -46,7 +46,7 @@ pub unsafe fn read(file_descriptor: usize, buffer: *mut u8, count: usize) -> usi
     let response;
     asm!(
         "int 80h",
-        in("rax") 0, in("rsi") buffer, in("rdx") count, lateout("rax") response
+        in("rax") 0, in("rdi") file_descriptor, in("rsi") buffer, in("rdx") count, lateout("rax") response
     );
     response
 }
@@ -55,7 +55,7 @@ pub unsafe fn write(file_descriptor: usize, buffer: *const u8, count: usize) -> 
     let response;
     asm!(
         "int 80h",
-        in("rax") 1, in("rsi") buffer, in("rdx") count, lateout("rax") response
+        in("rax") 1, in("rdi") file_descriptor, in("rsi") buffer, in("rdx") count, lateout("rax") response
     );
     response
 }
