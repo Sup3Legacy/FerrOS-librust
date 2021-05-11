@@ -465,7 +465,7 @@ impl KeyBoardStatus {
                             b'\x1b',
                             b'[',
                             terminal::get_fg() + 1,
-                            b'm',
+                            b'm'
                         ]))
                     } else {
                         Effect::Value(KeyEvent::CharaterVec(vec![b'\x1b', b'[', 1_u8, b'D']))
@@ -479,7 +479,7 @@ impl KeyBoardStatus {
                             b'\x1b',
                             b'[',
                             terminal::get_fg() + 1,
-                            b'm',
+                            b'm'
                         ]))
                     } else {
                         Effect::Value(KeyEvent::CharaterVec(vec![b'\x1b', b'[', 1_u8, b'C']))
@@ -493,7 +493,7 @@ impl KeyBoardStatus {
                             b'\x1b',
                             b'[',
                             terminal::get_bg() + 21,
-                            b'm',
+                            b'm'
                         ]))
                     } else {
                         Effect::Value(KeyEvent::CharaterVec(vec![b'\x1b', b'[', 1_u8, b'B']))
@@ -507,7 +507,7 @@ impl KeyBoardStatus {
                             b'\x1b',
                             b'[',
                             terminal::get_bg() + 21,
-                            b'm',
+                            b'm'
                         ]))
                     } else {
                         Effect::Value(KeyEvent::CharaterVec(vec![b'\x1b', b'[', 1_u8, b'A']))

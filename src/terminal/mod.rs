@@ -30,8 +30,8 @@ impl Color {
     }
 }
 
-pub static mut FgColor: Color = Color::White;
-pub static mut BgColor: Color = Color::Black;
+static mut FgColor: Color = Color::White;
+static mut BgColor: Color = Color::Black;
 
 pub fn get_fg() -> u8 {
     unsafe { FgColor.to_u8() }
