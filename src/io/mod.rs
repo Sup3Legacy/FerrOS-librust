@@ -12,6 +12,9 @@ pub fn push_sound(fd: u64, tone: u64, length: u64, begin: u64) {
 
 pub fn read_to_string(fd: usize, length: usize) -> String {
     let mut buffer = [0_u8; 512];
+    unsafe {
+        syscall::debug(fd, 43);
+    }
     let got = unsafe { syscall::read(fd, &mut buffer as *mut u8, length) };
     let mut res = String::new();
     for i in 0..got {
