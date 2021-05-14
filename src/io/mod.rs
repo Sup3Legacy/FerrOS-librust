@@ -73,7 +73,33 @@ pub fn _print(a: &String) {
     }
 }
 
+#[doc(hidden)]
+pub fn _print_outer(args: ::core::fmt::Arguments) {
+    match args.as_str() {
+        None => (),
+        Some(s) => {
+            let mut t: [u8; 128] = [0; 128];
+            let mut index = 0_usize;
+
+            for c in s.bytes() {
+                t[index] = c;
+                index += 1;
+                if index == 128 {
+                    t[index - 1] = 0; // We put a guard
+                    break;
+                }
+            }
+            unsafe {
+                syscall::write(STD_IN, &t as *const u8, index);
+            }
+        }
+    }
+}
+
+/// Prints to the host through the serial interface.
 #[macro_export]
 macro_rules! print {
-    ($($arg:tt)*) => (_print($crate::format_args!($($arg)*)));
+    ($($arg:tt)*) => {
+    $crate::io::_print_outer(format_args!($($arg)*));
+    };
 }
