@@ -36,7 +36,7 @@ pub fn decode_buffer(scancodes: &[u8], characters: &mut [u8], length: usize) -> 
     index
 }
 
-pub fn translate(scancodes: Vec<u8>, string: &mut String) {
+pub fn translate(scancodes: Vec<u8>, string: &mut String, end: &mut String) {
     for c in scancodes.iter() {
         let character = KEYBOARD_STATUS.lock().process(*c);
         match character {
@@ -45,8 +45,40 @@ pub fn translate(scancodes: Vec<u8>, string: &mut String) {
                 string.push(a);
             },
             layout::Effect::Value(layout::KeyEvent::CharaterVec(v)) => {
-                for elt in v.iter() {
-                    string.push(*elt as char);
+                if v.len() == 4 && v[0] == b'\x1b' && v[1] == b'[' && v[2] == 1_u8 {
+                    match v[3] {
+                        b'A' => {
+                            match string.pop() {
+                                Some(c) => {
+                                    let mut end2 = String::from(c);
+                                    end2.push_str(&end);
+                                    end.truncate(0);
+                                    end.push_str(&end2);
+                                },
+                                None => (),
+                            }
+                        },
+                        b'B' => {
+                            if end.len() != 0 {
+                                let mut first = true;
+                                let end2 = String::from(end as &String);
+                                end.truncate(0);
+                                for c in end2.chars() {
+                                    if first {
+                                        string.push(c);
+                                        first = false
+                                    } else {
+                                        end.push(c)
+                                    }
+                                }
+                            }
+                        },
+                        _ => (),
+                    }
+                } else {
+                    for elt in v.iter() {
+                        string.push(*elt as char);
+                    }
                 }
             }
             layout::Effect::Value(layout::KeyEvent::SpecialKey(v)) => {
