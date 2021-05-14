@@ -1,6 +1,9 @@
 use lazy_static::lazy_static;
 use spin::Mutex;
 
+use alloc::vec::Vec;
+use alloc::string::String;
+
 pub mod layout;
 
 lazy_static! {
@@ -31,4 +34,26 @@ pub fn decode_buffer(scancodes: &[u8], characters: &mut [u8], length: usize) -> 
         };
     }
     index
+}
+
+pub fn translate(scancodes: Vec<u8>, string: &mut String) {
+    for c in scancodes.iter() {
+        let character = KEYBOARD_STATUS.lock().process(*c);
+        match character {
+            layout::Effect::Nothing => (),
+            layout::Effect::Value(layout::KeyEvent::Character(a)) => {
+                string.push(a);
+            },
+            layout::Effect::Value(layout::KeyEvent::CharaterVec(v)) => {
+                for elt in v.iter() {
+                    string.push(*elt as char);
+                }
+            }
+            layout::Effect::Value(layout::KeyEvent::SpecialKey(v)) => {
+                if v == 0 {
+                    string.pop();
+                }
+            }
+        }
+    }
 }
