@@ -69,7 +69,7 @@ pub fn _print(a: &String) {
         }
     }
     unsafe {
-        syscall::write(STD_IN, &t as *const u8, index);
+        syscall::write(STD_OUT, &t as *const u8, index);
     }
 }
 
@@ -90,7 +90,7 @@ pub fn _print_outer(args: ::core::fmt::Arguments) {
                 }
             }
             unsafe {
-                syscall::write(STD_IN, &t as *const u8, index);
+                syscall::write(STD_OUT, &t as *const u8, index);
             }
         }
     }
