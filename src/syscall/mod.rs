@@ -168,10 +168,35 @@ pub unsafe fn listen() -> (usize, usize) {
     asm!(
         "int 80h",
         in("rax") 22,
+        in("rdi") 0,
         lateout("rax") res1,
         lateout("rdi") res2,
     );
     (res1, res2)
+}
+
+pub unsafe fn listen_proc(id: usize) -> (usize, usize) {
+    let res1;
+    let res2;
+    asm!(
+        "int 80h",
+        in("rax") 22,
+        in("rdi") id,
+        lateout("rax") res1,
+        lateout("rdi") res2,
+    );
+    (res1, res2)
+}
+
+pub unsafe fn await_end(id: usize) -> usize {
+    loop {
+        let (r1, r2) = listen_proc(id);
+        if id == r1 {
+            return r2
+        } else {
+            sleep()
+        }
+    }
 }
 
 #[repr(C)]
