@@ -52,11 +52,11 @@ pub fn print_buffer(buffer: &[u8], size: usize) {
         t[c] = buffer[c];
     }
     unsafe {
-        syscall::write(1, &t as *const u8, size);
+        syscall::write(STD_IN, &t as *const u8, size);
     }
 }
 
-pub fn print(a: &String) {
+pub fn _print(a: &String) {
     let mut t: [u8; 128] = [0; 128];
     let mut index = 0_usize;
 
@@ -69,6 +69,11 @@ pub fn print(a: &String) {
         }
     }
     unsafe {
-        syscall::write(1, &t as *const u8, index);
+        syscall::write(STD_IN, &t as *const u8, index);
     }
+}
+
+#[macro_export]
+macro_rules! print {
+    ($($arg:tt)*) => (_print($crate::format_args!($($arg)*)));
 }
