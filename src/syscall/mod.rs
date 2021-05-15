@@ -97,7 +97,7 @@ pub unsafe fn exec(name: String, args: &Vec<String>) -> usize {
         6,
         VirtAddr::from_ptr(name.as_ptr()).as_u64() as usize,
         name.len(),
-        args.as_ptr() as usize,
+        (args as *const Vec<String>) as usize,
         0,
         0,
     )
