@@ -13,7 +13,7 @@ pub fn retrieve_arguments(args_number: u64, address: u64) -> Vec<String> {
         let mut new_string = String::new();
         for i in index..0x1000 {
             if arg_buffer[i] == 0 {
-                index = i;
+                index = i + 1;
                 break;
             }
             new_string.push(arg_buffer[i] as char);
