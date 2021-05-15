@@ -1,4 +1,5 @@
 use alloc::string::String;
+use alloc::vec::Vec;
 
 use x86_64::VirtAddr;
 
@@ -91,12 +92,12 @@ pub unsafe fn fork() -> usize {
     syscall(5, 0, 0, 0, 0, 0)
 }
 
-pub unsafe fn exec(name: String) -> usize {
+pub unsafe fn exec(name: String, args: &Vec<String>) -> usize {
     syscall(
         6,
         VirtAddr::from_ptr(name.as_ptr()).as_u64() as usize,
         name.len(),
-        0,
+        args.as_ptr() as usize,
         0,
         0,
     )
