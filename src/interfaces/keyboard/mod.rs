@@ -1,8 +1,8 @@
 use lazy_static::lazy_static;
 use spin::Mutex;
 
-use alloc::vec::Vec;
 use alloc::string::String;
+use alloc::vec::Vec;
 
 pub mod layout;
 
@@ -43,20 +43,18 @@ pub fn translate(scancodes: Vec<u8>, string: &mut String, end: &mut String) {
             layout::Effect::Nothing => (),
             layout::Effect::Value(layout::KeyEvent::Character(a)) => {
                 string.push(a);
-            },
+            }
             layout::Effect::Value(layout::KeyEvent::CharaterVec(v)) => {
                 if v.len() == 4 && v[0] == b'\x1b' && v[1] == b'[' && v[2] == 1_u8 {
                     match v[3] {
-                        b'A' => {
-                            match string.pop() {
-                                Some(c) => {
-                                    let mut end2 = String::from(c);
-                                    end2.push_str(&end);
-                                    end.truncate(0);
-                                    end.push_str(&end2);
-                                },
-                                None => (),
+                        b'A' => match string.pop() {
+                            Some(c) => {
+                                let mut end2 = String::from(c);
+                                end2.push_str(&end);
+                                end.truncate(0);
+                                end.push_str(&end2);
                             }
+                            None => (),
                         },
                         b'B' => {
                             if end.len() != 0 {
@@ -72,7 +70,7 @@ pub fn translate(scancodes: Vec<u8>, string: &mut String, end: &mut String) {
                                     }
                                 }
                             }
-                        },
+                        }
                         _ => (),
                     }
                 } else {

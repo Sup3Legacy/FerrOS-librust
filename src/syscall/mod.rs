@@ -192,7 +192,7 @@ pub unsafe fn await_end(id: usize) -> usize {
     loop {
         let (r1, r2) = listen_proc(id);
         if id == r1 {
-            return r2
+            return r2;
         } else {
             sleep()
         }

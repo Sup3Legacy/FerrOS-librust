@@ -460,12 +460,16 @@ impl KeyBoardStatus {
 
                 Key::ArrowL => {
                     if self.maj() {
-                        terminal::set_fg(if terminal::get_fg() == 0 {15} else {terminal::get_fg() - 1});
+                        terminal::set_fg(if terminal::get_fg() == 0 {
+                            15
+                        } else {
+                            terminal::get_fg() - 1
+                        });
                         Effect::Value(KeyEvent::CharaterVec(vec![
                             b'\x1b',
                             b'[',
                             terminal::get_fg() + 1,
-                            b'm'
+                            b'm',
                         ]))
                     } else {
                         Effect::Value(KeyEvent::CharaterVec(vec![b'\x1b', b'[', 1_u8, b'D']))
@@ -479,7 +483,7 @@ impl KeyBoardStatus {
                             b'\x1b',
                             b'[',
                             terminal::get_fg() + 1,
-                            b'm'
+                            b'm',
                         ]))
                     } else {
                         Effect::Value(KeyEvent::CharaterVec(vec![b'\x1b', b'[', 1_u8, b'C']))
@@ -488,12 +492,16 @@ impl KeyBoardStatus {
 
                 Key::ArrowD => {
                     if self.maj() {
-                        terminal::set_bg(if terminal::get_bg() == 0 {15} else {terminal::get_bg() - 1});
+                        terminal::set_bg(if terminal::get_bg() == 0 {
+                            15
+                        } else {
+                            terminal::get_bg() - 1
+                        });
                         Effect::Value(KeyEvent::CharaterVec(vec![
                             b'\x1b',
                             b'[',
                             terminal::get_bg() + 21,
-                            b'm'
+                            b'm',
                         ]))
                     } else {
                         Effect::Value(KeyEvent::CharaterVec(vec![b'\x1b', b'[', 1_u8, b'B']))
@@ -507,7 +515,7 @@ impl KeyBoardStatus {
                             b'\x1b',
                             b'[',
                             terminal::get_bg() + 21,
-                            b'm'
+                            b'm',
                         ]))
                     } else {
                         Effect::Value(KeyEvent::CharaterVec(vec![b'\x1b', b'[', 1_u8, b'A']))
