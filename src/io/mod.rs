@@ -23,9 +23,6 @@ pub fn read_input(fd: usize, length: usize) -> Vec<u8> {
     unsafe { syscall::debug(got, 1) };
     for i in 0..got {
         unsafe { syscall::debug(got, i) };
-        if buffer[i] == 0 {
-            break;
-        }
         res.push(buffer[i]);
     }
     unsafe { syscall::debug(got, 999999) };
