@@ -524,6 +524,22 @@ impl KeyBoardStatus {
 
                 Key::Dollar => Effect::Value(KeyEvent::Character('$')),
 
+                Key::Dot => {
+                    if self.maj() {
+                        Effect::Value(KeyEvent::Character('.'))
+                    } else {
+                        Effect::Value(KeyEvent::Character(';'))
+                    }
+                }
+
+                Key::Slash => {
+                    if self.maj() {
+                        Effect::Value(KeyEvent::Character('/'))
+                    } else {
+                        Effect::Value(KeyEvent::Character(':'))
+                    }
+                }
+
                 _ => {
                     //println!("{:?}", key);
                     //println!("{:?}", convert(key));
@@ -817,22 +833,6 @@ impl KeyBoardStatus {
                 }
 
                 Key::Space => Effect::Value(KeyEvent::Character(' ')),
-
-                Key::Dot => {
-                    if self.maj() {
-                        Effect::Value(KeyEvent::Character('.'))
-                    } else {
-                        Effect::Value(KeyEvent::Character(';'))
-                    }
-                }
-
-                Key::Slash => {
-                    if self.maj() {
-                        Effect::Value(KeyEvent::Character('/'))
-                    } else {
-                        Effect::Value(KeyEvent::Character(':'))
-                    }
-                }
 
                 Key::ShiftR => {
                     self.shift_r_down();
