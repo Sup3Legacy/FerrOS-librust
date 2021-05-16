@@ -17,7 +17,7 @@ pub fn push_sound(fd: u64, tone: u64, length: u64, begin: u64) {
 
 pub fn read_input(fd: usize, length: usize) -> Vec<u8> {
     let mut buffer = [0_u8; 512];
-    let got = unsafe { syscall::read(fd, &mut buffer as *mut u8, length) };
+    let got = unsafe { syscall::read(fd, &mut buffer as *mut u8, core::cmp::min(length, 512)) };
     let mut res = Vec::new();
     for i in 0..got {
         if buffer[i] == 0 {
