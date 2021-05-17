@@ -69,7 +69,7 @@ pub unsafe fn write(file_descriptor: usize, buffer: *const u8, count: usize) -> 
 }
 
 /// Maybe we can pass a whole String for the path
-pub unsafe fn open(path: String, flags: crate::io::OpenFlags) -> usize {
+pub unsafe fn open(path: &String, flags: crate::io::OpenFlags) -> usize {
     syscall(
         2,
         VirtAddr::from_ptr(path.as_ptr()).as_u64() as usize,
