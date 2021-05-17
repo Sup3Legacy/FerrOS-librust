@@ -69,12 +69,12 @@ pub unsafe fn write(file_descriptor: usize, buffer: *const u8, count: usize) -> 
 }
 
 /// Maybe we can pass a whole String for the path
-pub unsafe fn open(path: String, flags: u64) -> usize {
+pub unsafe fn open(path: String, flags: crate::io::OpenFlags) -> usize {
     syscall(
         2,
         VirtAddr::from_ptr(path.as_ptr()).as_u64() as usize,
         path.len(),
-        flags as usize,
+        flags.bits(),
         0,
         0,
     )
@@ -92,7 +92,7 @@ pub unsafe fn fork() -> usize {
     syscall(5, 0, 0, 0, 0, 0)
 }
 
-pub unsafe fn exec(name: String, args: &Vec<String>) -> usize {
+pub unsafe fn exec(name: &String, args: &Vec<String>) -> usize {
     syscall(
         6,
         VirtAddr::from_ptr(name.as_ptr()).as_u64() as usize,

@@ -1,6 +1,7 @@
 use super::syscall;
 
 use alloc::string::String;
+use bitflags::bitflags;
 use alloc::vec::Vec;
 use core::mem;
 
@@ -8,8 +9,17 @@ pub const STD_IN: usize = 0;
 pub const STD_OUT: usize = 1;
 pub const STD_ERR: usize = 2;
 
+bitflags! {
+    #[repr(transparent)]
+    pub struct OpenFlags: usize {
+        const ORD = 1;
+        const OWR = 1 << 1;
+        const OCREAT = 1 << 2;
+        const OAPPEND = 1 << 3;
+        const OXCUTE = 1 << 4;
+    }
+}
 
-pub const RD_TO_EXECUTE: usize = 0;
 
 pub fn push_sound(fd: u64, tone: u64, length: u64, begin: u64) {
     let sound_buffer: [u8; 24] = unsafe { mem::transmute([tone, length, begin]) };
