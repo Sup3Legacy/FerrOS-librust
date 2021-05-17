@@ -200,6 +200,10 @@ pub unsafe fn await_end(id: usize) -> usize {
     }
 }
 
+pub unsafe fn kill(id: usize) -> usize {
+    syscall(23, id, 0, 0, 0, 0)
+}
+
 #[repr(C)]
 pub enum OpenFlags {
     OCREAT,
