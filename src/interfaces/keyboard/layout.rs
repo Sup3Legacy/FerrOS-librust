@@ -522,6 +522,14 @@ impl KeyBoardStatus {
                     }
                 }
 
+                Key::Ineg => {
+                    if self.maj() {
+                        Effect::Value(KeyEvent::Character('>'))
+                    } else {
+                        Effect::Value(KeyEvent::Character('<'))
+                    }
+                }
+
                 Key::Dollar => Effect::Value(KeyEvent::Character('$')),
 
                 Key::Dot => {
@@ -829,6 +837,14 @@ impl KeyBoardStatus {
                         Effect::Value(KeyEvent::Character('M'))
                     } else {
                         Effect::Value(KeyEvent::Character('m'))
+                    }
+                }
+
+                Key::Ineg => {
+                    if self.maj() {
+                        Effect::Value(KeyEvent::Character('>'))
+                    } else {
+                        Effect::Value(KeyEvent::Character('<'))
                     }
                 }
 
