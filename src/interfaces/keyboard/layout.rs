@@ -532,7 +532,7 @@ impl KeyBoardStatus {
 
                 Key::Dollar => Effect::Value(KeyEvent::Character('$')),
 
-                Key::Let2_3 => {
+                Key::Let2_6 => {
                     if self.maj() {
                         Effect::Value(KeyEvent::Character('?'))
                     } else {
