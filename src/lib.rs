@@ -35,7 +35,7 @@ extern crate num_derive;
 pub fn panic(_: &PanicInfo) -> ! {
     unsafe {
         syscall::syscall(20, 420, 0, 0, 0, 0);
-        asm!("push 0", "ret");
+        syscall::exit(42);
     }
     loop {}
 }
