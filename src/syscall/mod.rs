@@ -6,6 +6,8 @@ use x86_64::VirtAddr;
 // callee-saved : rax, rdi, rsi, rdx, rcx, r8, r9, r10, r11
 // syscall : rax, rdi, rsi, rdx, r10, r8, r9
 // param : rdi, rsi, rdx, rcx, r8, r9
+/// # Safety
+/// TODO
 pub unsafe extern "C" fn syscall_old(
     number: u64,
     arg0: u64,
@@ -50,6 +52,8 @@ pub extern "C" fn syscall(
     res
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn read(file_descriptor: usize, buffer: *mut u8, count: usize) -> usize {
     let response;
     asm!(
@@ -59,6 +63,8 @@ pub unsafe fn read(file_descriptor: usize, buffer: *mut u8, count: usize) -> usi
     response
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn write(file_descriptor: usize, buffer: *const u8, count: usize) -> usize {
     let response;
     asm!(
@@ -69,6 +75,8 @@ pub unsafe fn write(file_descriptor: usize, buffer: *const u8, count: usize) -> 
 }
 
 /// Maybe we can pass a whole String for the path
+/// # Safety
+/// TODO
 pub unsafe fn open(path: &String, flags: crate::io::OpenFlags) -> usize {
     syscall(
         2,
@@ -80,18 +88,26 @@ pub unsafe fn open(path: &String, flags: crate::io::OpenFlags) -> usize {
     )
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn close(file_descriptor: usize) -> usize {
     syscall(3, file_descriptor, 0, 0, 0, 0)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn dup2(fd1: usize, fd2: usize) -> usize {
     syscall(4, fd1, fd2, 0, 0, 0)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn fork() -> usize {
     syscall(5, 0, 0, 0, 0, 0)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn exec(name: &String, args: &Vec<String>) -> usize {
     syscall(
         6,
@@ -103,66 +119,98 @@ pub unsafe fn exec(name: &String, args: &Vec<String>) -> usize {
     )
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn exit(code: usize) -> usize {
     syscall(7, code, 0, 0, 0, 0)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn sleep() {
     syscall(8, 0, 0, 0, 0, 0);
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn shutdown(code: usize) -> usize {
     syscall(9, code, 0, 0, 0, 0)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn get_puid() -> usize {
     syscall(10, 0, 0, 0, 0, 0)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn set_screen_size(height: usize, width: usize) -> usize {
     syscall(11, height, width, 0, 0, 0)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn set_screen_pos(top: usize, left: usize) -> usize {
     syscall(12, top, left, 0, 0, 0)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn getcwd() -> usize {
     syscall(13, 0, 0, 0, 0, 0)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn chdir() -> usize {
     syscall(14, 0, 0, 0, 0, 0)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn mkdir() -> usize {
     syscall(15, 0, 0, 0, 0, 0)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn rmdir() -> usize {
     syscall(16, 0, 0, 0, 0, 0)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn get_layer() -> usize {
     syscall(17, 0, 0, 0, 0, 0)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn set_layer(l: usize) -> usize {
     syscall(18, l, 0, 0, 0, 0) as usize
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn set_focus() -> usize {
     syscall(19, 0, 0, 0, 0, 0) as usize
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn debug(v1: usize, v2: usize) {
     syscall(20, v1, v2, 0, 0, 0);
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn memrequest(number: usize) -> usize {
     syscall(21, number, 0, 0, 0, 0)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn listen() -> (usize, usize) {
     let res1;
     let res2;
@@ -176,6 +224,8 @@ pub unsafe fn listen() -> (usize, usize) {
     (res1, res2)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn listen_proc(id: usize) -> (usize, usize) {
     let res1;
     let res2;
@@ -189,6 +239,8 @@ pub unsafe fn listen_proc(id: usize) -> (usize, usize) {
     (res1, res2)
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn await_end(id: usize) -> usize {
     loop {
         let (r1, r2) = listen_proc(id);
@@ -200,6 +252,8 @@ pub unsafe fn await_end(id: usize) -> usize {
     }
 }
 
+/// # Safety
+/// TODO
 pub unsafe fn kill(id: usize) -> usize {
     syscall(23, id, 0, 0, 0, 0)
 }

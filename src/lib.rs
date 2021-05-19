@@ -1,5 +1,4 @@
 #![no_std]
-#![no_main]
 #![cfg_attr(test, no_main)]
 #![feature(alloc_error_handler)]
 #![feature(custom_test_frameworks)]

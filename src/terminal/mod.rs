@@ -30,21 +30,21 @@ impl Color {
     }
 }
 
-static mut FgColor: Color = Color::White;
-static mut BgColor: Color = Color::Black;
+static mut FG_COLOR: Color = Color::White;
+static mut BG_COLOR: Color = Color::Black;
 
 pub fn get_fg() -> u8 {
-    unsafe { FgColor.to_u8() }
+    unsafe { FG_COLOR.to_u8() }
 }
 
 pub fn get_bg() -> u8 {
-    unsafe { BgColor.to_u8() }
+    unsafe { BG_COLOR.to_u8() }
 }
 
 pub fn set_fg(n: u8) {
-    unsafe { FgColor = Color::from_u8(n) }
+    unsafe { FG_COLOR = Color::from_u8(n) }
 }
 
 pub fn set_bg(n: u8) {
-    unsafe { BgColor = Color::from_u8(n) }
+    unsafe { BG_COLOR = Color::from_u8(n) }
 }
