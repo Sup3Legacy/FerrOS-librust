@@ -147,8 +147,8 @@ pub unsafe fn get_layer() -> usize {
     syscall(17, 0, 0, 0, 0, 0)
 }
 
-pub unsafe fn set_layer() -> usize {
-    syscall(18, 0, 0, 0, 0, 0) as usize
+pub unsafe fn set_layer(l: usize) -> usize {
+    syscall(18, l, 0, 0, 0, 0) as usize
 }
 
 pub unsafe fn set_focus() -> usize {
