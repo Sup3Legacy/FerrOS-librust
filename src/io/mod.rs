@@ -64,13 +64,13 @@ pub fn print_buffer(buffer: &[u8], size: usize) {
 }
 
 pub fn _print(a: &String) {
-    let mut t: [u8; 128] = [0; 128];
+    let mut t: [u8; 1024] = [0; 1024];
     let mut index = 0_usize;
 
     for c in a.bytes() {
         t[index] = c;
         index += 1;
-        if index == 128 {
+        if index == 1024 {
             t[index - 1] = 0; // We put a guard
             break;
         }
