@@ -31,8 +31,14 @@ use core::panic::PanicInfo;
 extern crate num_derive;
 
 #[panic_handler]
-pub fn panic(_: &PanicInfo) -> ! {
+pub fn panic(data: &PanicInfo) -> ! {
     unsafe {
+        let s = alloc::format!("{}", data);
+        let mut t: [u8; 1024] = [0; 1024];
+        for (i, b) in s.bytes().enumerate() {
+            t[i] = b;
+        }
+        syscall::write(2, &t as *const u8, s.len());
         syscall::syscall(20, 420, 0, 0, 0, 0);
         syscall::exit(42);
     }
