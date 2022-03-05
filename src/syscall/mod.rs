@@ -2,6 +2,7 @@ use alloc::string::String;
 use alloc::vec::Vec;
 
 use x86_64::VirtAddr;
+use core::arch::asm;
 pub mod popen;
 
 // callee-saved : rax, rdi, rsi, rdx, rcx, r8, r9, r10, r11
